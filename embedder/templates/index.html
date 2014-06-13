@@ -7,7 +7,7 @@
 
 {% set content %}
 
-	<form method="get" action="" accept-charset="UTF-8">
+    <form method="get" action="" accept-charset="UTF-8">
 
         {{ forms.textField({
             label: 'Video URL'|t,
@@ -16,7 +16,8 @@
             name: 'url',
             value: url,
             first: true
-        }) }}
+            }) 
+        }}
 
         <p><input type="submit" value="Fetch this Video" class="btn submit" /></p>
 

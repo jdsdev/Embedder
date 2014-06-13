@@ -6,28 +6,28 @@ namespace Craft;
  */
 class EmbedderPlugin extends BasePlugin
 {
-	public function getName()
-	{
-	    return 'Embedder';
-	}
+    public function getName()
+    {
+        return 'Embedder';
+    }
 
-	public function getVersion()
-	{
-	    return '0.9.0';
-	}
+    public function getVersion()
+    {
+        return '0.9.0';
+    }
 
-	public function getDeveloper()
-	{
-	    return 'Burst Creative';
-	}
+    public function getDeveloper()
+    {
+        return 'Pinkston Ditigal';
+    }
 
-	public function getDeveloperUrl()
-	{
-	    return 'http://burstcreative.com';
-	}
+    public function getDeveloperUrl()
+    {
+        return 'http://pinkstondigital.com';
+    }
 
-	public function hasCpSection()
-	{
-		return false;
-	}
+    public function hasCpSection()
+    {
+        return false;
+    }
 }
