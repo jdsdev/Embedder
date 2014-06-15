@@ -13,12 +13,12 @@ class EmbedderVariable
         return 'get success!' . $name;      
     }
 
-    public function embed($url, $params = [])
+    public function embed($url, $params = array())
     {
         return craft()->embedder->embed($url, $params, "simple");
     }
 
-    public function url($url, $params = [])
+    public function url($url, $params = array())
     {
         return craft()->embedder->embed($url, $params, "full");
     }
