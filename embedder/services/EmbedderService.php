@@ -49,6 +49,10 @@ class EmbedderService extends BaseApplicationComponent
         $vimeo_autoplay = (isset($params['vimeo_autoplay']) && $params['vimeo_autoplay'] == "true") ? "&autoplay=true" : "";
         $vimeo_portrait = (isset($params['vimeo_portrait']) && $params['vimeo_portrait'] == "false") ? "&portrait=0" : "";
         $vimeo_api      = (isset($params['vimeo_api']) && $params['vimeo_api'] == "true") ? "&api=1" : "";
+      
+        $vimeo_color = (isset($params['vimeo_color'])) ? "&color=" . $params['vimeo_color'] : "";
+        $vimeo_player_id = (isset($params['vimeo_player_id'])) ? $params['vimeo_player_id'] : "";
+        $vimeo_player_id_str = (isset($params['vimeo_player_id'])) ? "&player_id=" . $params['vimeo_player_id'] : "";
 
         // optional Viddler parameters
         $viddler_type = (isset($params['viddler_type'])) ? "&type=" . $params['viddler_type'] : "";
@@ -73,7 +77,7 @@ class EmbedderService extends BaseApplicationComponent
             return $video_data;
         }
 
-        $url .= urlencode($video_url) . $max_width . $max_height . $wmode_param . $vimeo_byline . $vimeo_title . $vimeo_autoplay . $vimeo_portrait . $vimeo_api . $viddler_type . $viddler_ratio;
+        $url .= urlencode($video_url) . $max_width . $max_height . $wmode_param . $vimeo_byline . $vimeo_title . $vimeo_autoplay . $vimeo_portrait . $vimeo_api . $vimeo_player_id_str . $vimeo_color . $viddler_type . $viddler_ratio;
 
         // checking if url has been cached
         $cached_url = craft()->fileCache->get($video_url);
@@ -95,7 +99,7 @@ class EmbedderService extends BaseApplicationComponent
 
         // decode the cURL data
         $video_info = simplexml_load_string($video_info);
-
+            
         // inject wmode transparent if required
         if ($wmode === 'transparent' || $wmode === 'opaque' || $wmode === 'window' ) {
             $param_str = '<param name="wmode" value="' . $wmode .'"></param>';
@@ -123,6 +127,11 @@ class EmbedderService extends BaseApplicationComponent
         {
             preg_match('/.*?src="(.*?)".*?/', $video_info->html, $matches);
             if (!empty($matches[1])) $video_info->html = str_replace($matches[1], $matches[1] . '&rel=' . $youtube_rel, $video_info->html);
+        }
+      
+        // add vimeo player id to iframe if set
+        if ($vimeo_player_id!=="") {
+            $video_info->html = preg_replace('/<iframe/i', '<iframe id="' . $vimeo_player_id . '"', $video_info->html);
         }
 
         // set the encode html to output properly in Twig
