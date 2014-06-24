@@ -47,7 +47,7 @@ If you're using Vimeo, you get access to seven more parameters and one more vari
 - vimeo_portrait='true/false' -- Shows the user's avatar on the video. Defaults to true.
 - vimeo_autoplay='true/false' -- Automatically start playback of the video. Defaults to false.
 - vimeo_api='true/false' -- Adds 'api=1' to the vimeo embed url to allow JavaScript API usage. Defaults to false.
-- vimeo_player_id -- Sets an ID on the player, which is usfule if you want to control multiple videos on the same page in a different way.
+- vimeo_player_id -- Sets an ID on the player, which is useful if you want to control multiple videos on the same page in a different way.
 - vimeo_color -- Sets the theme color for the Vimeo player
 - {video_description} -- The description of the video, as set in Vimeo
 
