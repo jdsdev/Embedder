@@ -47,7 +47,7 @@ class EmbedderService extends BaseApplicationComponent
         $vimeo_byline   = (isset($params['vimeo_byline']) && $params['vimeo_byline'] == "false") ? "&byline=false" : "";
         $vimeo_title    = (isset($params['vimeo_title']) && $params['vimeo_title'] == "false") ? "&title=false" : "";
         $vimeo_autoplay = (isset($params['vimeo_autoplay']) && $params['vimeo_autoplay'] == "true") ? "&autoplay=true" : "";
-        $vimeo_portrait = (isset($params['vimeo_portrait']) && $params['vimeo_portrait'] == "false") ? "&portrait=0" : "";
+        $vimeo_portrait = (isset($params['vimeo_portrait']) && $params['vimeo_portrait'] == "false") ? "&portrait=false" : "";
         $vimeo_api      = (isset($params['vimeo_api']) && $params['vimeo_api'] == "true") ? "&api=1" : "";
       
         $vimeo_color = (isset($params['vimeo_color'])) ? "&color=" . $params['vimeo_color'] : "";
