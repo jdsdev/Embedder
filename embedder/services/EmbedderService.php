@@ -146,8 +146,8 @@ class EmbedderService extends BaseApplicationComponent
             $video_info->thumbnail_url = str_replace('hqdefault','mqdefault',$video_info->thumbnail_url);
             }
         else if (strpos($video_url, "vimeo.com/") !== FALSE) {
-            $video_info->highres_url = str_replace('_295','_1280',$video_info->thumbnail_url);
-            $video_info->medres_url = str_replace('_295','_640',$video_info->thumbnail_url);
+            $video_info->highres_url = preg_replace('/_(.*?)\./','_1280.',$video_info->thumbnail_url);
+            $video_info->medres_url = preg_replace('/_(.*?)\./','_640.',$video_info->thumbnail_url);
             }
         else if (strpos($video_url, "wistia.com/") !== FALSE)
             {

@@ -40,13 +40,15 @@ If you're using YouTube, you get access to one more parameter:
 
 - youtube_rel='0/1' -- Show related videos at end of video. Defaults to 1.
 
-If you're using Vimeo, you get access to four more parameters and one more variable:
+If you're using Vimeo, you get access to seven more parameters and one more variable:
 
 - vimeo_byline='true/false' -- Shows the byline on the video. Defaults to true.
 - vimeo_title='true/false' -- Shows the title on the video. Defaults to true.
 - vimeo_portrait='true/false' -- Shows the user's avatar on the video. Defaults to true.
 - vimeo_autoplay='true/false' -- Automatically start playback of the video. Defaults to false.
 - vimeo_api='true/false' -- Adds 'api=1' to the vimeo embed url to allow JavaScript API usage. Defaults to false.
+- vimeo_player_id -- Sets an ID on the player, which is useful if you want to control multiple videos on the same page in a different way.
+- vimeo_color -- Sets the theme color for the Vimeo player
 - {video_description} -- The description of the video, as set in Vimeo
 
 If you're using Viddler, you get access to two more parameters:
