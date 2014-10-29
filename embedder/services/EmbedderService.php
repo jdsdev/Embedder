@@ -98,7 +98,14 @@ class EmbedderService extends BaseApplicationComponent
         }
 
         // decode the cURL data
+        libxml_use_internal_errors(true);
+
         $video_info = simplexml_load_string($video_info);
+        
+        if($video_info == false)
+        {
+            return "Video not found";
+        }
             
         // inject wmode transparent if required
         if ($wmode === 'transparent' || $wmode === 'opaque' || $wmode === 'window' ) {
@@ -148,6 +155,7 @@ class EmbedderService extends BaseApplicationComponent
         else if (strpos($video_url, "vimeo.com/") !== FALSE) {
             $video_info->highres_url = preg_replace('/_(.*?)\./','_1280.',$video_info->thumbnail_url);
             $video_info->medres_url = preg_replace('/_(.*?)\./','_640.',$video_info->thumbnail_url);
+            $video_info->thumbnail_url = preg_replace('/_(.*?)\./','_295.',$video_info->thumbnail_url);
             }
         else if (strpos($video_url, "wistia.com/") !== FALSE)
             {
