@@ -102,7 +102,8 @@ class EmbedderService extends BaseApplicationComponent
 
         $video_info = simplexml_load_string($video_info);
         
-        if($video_info == false)
+        // gracefully fail if the video is not found
+        if($video_info === false)
         {
             return "Video not found";
         }
