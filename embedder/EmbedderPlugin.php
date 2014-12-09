@@ -18,7 +18,7 @@ class EmbedderPlugin extends BasePlugin
 
     public function getDeveloper()
     {
-        return 'Pinkston Ditigal';
+        return 'Pinkston Digital';
     }
 
     public function getDeveloperUrl()
