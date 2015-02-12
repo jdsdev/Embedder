@@ -42,6 +42,7 @@ class EmbedderService extends BaseApplicationComponent
 
         // optional YouTube parameters
         $youtube_rel = (isset($params['youtube_rel'])) ? $params['youtube_rel'] : null;
+        $youtube_showinfo = (isset($params['youtube_showinfo'])) ? $params['youtube_showinfo'] : null;
 
         // optional Vimeo parameters
         $vimeo_byline   = (isset($params['vimeo_byline']) && $params['vimeo_byline'] == "false") ? "&byline=false" : "";
@@ -135,6 +136,13 @@ class EmbedderService extends BaseApplicationComponent
         {
             preg_match('/.*?src="(.*?)".*?/', $video_info->html, $matches);
             if (!empty($matches[1])) $video_info->html = str_replace($matches[1], $matches[1] . '&rel=' . $youtube_rel, $video_info->html);
+        }
+
+        // inject YouTube show info if required
+        if (!is_null($youtube_showinfo) && (strpos($video_url, "youtube.com/") !== FALSE OR strpos($video_url, "youtu.be/") !== FALSE))
+        {
+            preg_match('/.*?src="(.*?)".*?/', $video_info->html, $matches);
+            if (!empty($matches[1])) $video_info->html = str_replace($matches[1], $matches[1] . '&showinfo=' . $youtube_showinfo, $video_info->html);
         }
       
         // add vimeo player id to iframe if set
