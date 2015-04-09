@@ -59,6 +59,10 @@ class EmbedderService extends BaseApplicationComponent
         $viddler_type = (isset($params['viddler_type'])) ? "&type=" . $params['viddler_type'] : "";
         $viddler_ratio = (isset($params['viddler_ratio'])) ? "&ratio=" . $params['viddler_ratio'] : "";
 
+        // optional Wistia parameters
+        $wistia_type = (isset($params['wistia_type'])) ? "&embedType=" . $params['wistia_type'] : "";
+        $wistia_foam = (isset($params['wistia_foam']) && $params['wistia_foam'] == "true") ? "&videoFoam=true" : "";
+
         // automatically handle scheme if https
         $is_https = false;
         if (isset($params['force_https']) && $params['force_https'] == "true" || parse_url($video_url, PHP_URL_SCHEME) == 'https') {
@@ -78,7 +82,7 @@ class EmbedderService extends BaseApplicationComponent
             return $video_data;
         }
 
-        $url .= urlencode($video_url) . $max_width . $max_height . $wmode_param . $vimeo_byline . $vimeo_title . $vimeo_autoplay . $vimeo_portrait . $vimeo_api . $vimeo_player_id_str . $vimeo_color . $viddler_type . $viddler_ratio;
+        $url .= urlencode($video_url) . $max_width . $max_height . $wmode_param . $vimeo_byline . $vimeo_title . $vimeo_autoplay . $vimeo_portrait . $vimeo_api . $vimeo_player_id_str . $vimeo_color . $viddler_type . $viddler_ratio . $wistia_type . $wistia_foam;
 
         // checking if url has been cached
         $cached_url = craft()->fileCache->get($video_url);

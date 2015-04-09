@@ -57,6 +57,11 @@ If you're using Viddler, you get access to two more parameters:
 - viddler_type='simple/player' -- Specifies the player type. Defaults to player.
 - viddler_ratio='widescreen/fullscreen' -- Aspect ratio will be automatically determined if not set.
 
+If you're using Wistia, you get access to two more parameters:
+
+- wistia_type -- Sets the supported embed type
+- wistia_foam='true/false' -- Makes the embedded video responsive using Wistia's Video Foam feature
+
 Warranty/License
 ------
 There's no warranty of any kind. If you find a bug, please tell me and I may try to fix it. It's provided completely as-is; if something breaks, you lose data, or something else bad happens, the author(s) and owner(s) of this plugin are in no way responsible.
