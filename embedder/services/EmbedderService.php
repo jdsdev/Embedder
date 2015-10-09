@@ -206,6 +206,7 @@ class EmbedderService extends BaseApplicationComponent
 
         // replace the embed code with the Twig object
         $tagdata['embed_code'] = $twig_html;
+        $tagdata['video_url'] = $url;
         
         return $tagdata;
 
