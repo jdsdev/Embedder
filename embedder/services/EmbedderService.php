@@ -154,6 +154,8 @@ class EmbedderService extends BaseApplicationComponent
             $video_info->html = preg_replace('/<iframe/i', '<iframe id="' . $vimeo_player_id . '"', $video_info->html);
         }
 
+        $embed_url = preg_replace('/<iframe.*?src="(.*?)".*?<\/iframe>/i', '$1', $video_info->html);
+
         // set the encode html to output properly in Twig
         $charset = craft()->templates->getTwig()->getCharset();
         $twig_html = new \Twig_Markup($video_info->html, $charset);
@@ -206,7 +208,7 @@ class EmbedderService extends BaseApplicationComponent
 
         // replace the embed code with the Twig object
         $tagdata['embed_code'] = $twig_html;
-        $tagdata['video_url'] = $url;
+        $tagdata['embed_url'] = $embed_url;
         
         return $tagdata;
 
