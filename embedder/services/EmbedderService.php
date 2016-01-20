@@ -85,7 +85,7 @@ class EmbedderService extends BaseApplicationComponent
         $url .= urlencode($video_url) . $max_width . $max_height . $wmode_param . $vimeo_byline . $vimeo_title . $vimeo_autoplay . $vimeo_portrait . $vimeo_api . $vimeo_player_id_str . $vimeo_color . $viddler_type . $viddler_ratio . $wistia_type . $wistia_foam;
 
         // checking if url has been cached
-        $cached_url = craft()->fileCache->get($video_url);
+        $cached_url = craft()->fileCache->get($url);
 
         if (! $refresh_cache OR $cache_expired OR ! $cached_url)
         {
@@ -94,7 +94,7 @@ class EmbedderService extends BaseApplicationComponent
 
             // write the data to cache if caching hasn't been disabled
             if ($refresh_cache) {
-                craft()->fileCache->set($video_url, $video_info, $refresh_cache);
+                craft()->fileCache->set($url, $video_info, $refresh_cache);
             }
         }
         else
