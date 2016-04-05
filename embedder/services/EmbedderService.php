@@ -74,7 +74,7 @@ class EmbedderService extends BaseApplicationComponent
             $url = "http://www.youtube.com/oembed?format=xml&iframe=1" . ($is_https ? '&scheme=https' : '') . "&url=";
         } else if (strpos($video_url, "vimeo.com/") !== FALSE) {
             $url = "http" . ($is_https ? 's' : '') . "://vimeo.com/api/oembed.xml?url=";
-        } else if (strpos($video_url, "wistia.com/") !== FALSE) {
+        } else if (strpos($video_url, "wistia.com/") !== FALSE OR strpos($video_url, "wistia.net/") !== FALSE) {
             $url = "http://app.wistia.com/embed/oembed.xml?url=";
         } else if (strpos($video_url, "viddler.com/") !== FALSE) {
             $url = "http://www.viddler.com/oembed/?format=xml&url=";
@@ -170,7 +170,7 @@ class EmbedderService extends BaseApplicationComponent
             $video_info->medres_url = preg_replace('/_(.*?)\./','_640.',$video_info->thumbnail_url);
             $video_info->thumbnail_url = preg_replace('/_(.*?)\./','_295.',$video_info->thumbnail_url);
             }
-        else if (strpos($video_url, "wistia.com/") !== FALSE)
+        else if (strpos($video_url, "wistia.com/") !== FALSE OR strpos($video_url, "wistia.net/") !== FALSE)
             {
             $video_info->highres_url = str_replace('?image_crop_resized=100x60','',$video_info->thumbnail_url);
             $video_info->medres_url = str_replace('?image_crop_resized=100x60','?image_crop_resized=640x400',$video_info->thumbnail_url);
