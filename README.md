@@ -21,6 +21,7 @@ Full Usage
     <li>title : {{ video.video_title }}</li>
     <li>description : {{ video.video_description }}</li>
     <li>thumbnail : <img src="{{ video.video_thumbnail }}"></li>
+    <li>provider : {{ video.video_provider }}</li>
 </ul>
 ```
 
