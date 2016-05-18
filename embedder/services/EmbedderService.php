@@ -17,7 +17,8 @@ class EmbedderService extends BaseApplicationComponent
             "thumbnail_url" =>  "video_thumbnail",
             "medres_url"    =>  "video_mediumres",
             "highres_url"   =>  "video_highres",
-            "description"   =>  "video_description"
+            "description"   =>  "video_description",
+            "provider"      =>  "video_provider"
         );
 
         $video_data = array();
@@ -182,7 +183,23 @@ class EmbedderService extends BaseApplicationComponent
             $video_info->medres_url = $video_info->thumbnail_url;
             $video_info->thumbnail_url = str_replace('thumbnail_2','thumbnail_1',$video_info->thumbnail_url);
             }
-        
+
+        // get the provider as a string for front-end use
+        if(strpos($video_url, "youtube.com/") !== FALSE OR strpos($video_url, "youtu.be/") !== FALSE) {
+            $video_info->provider = "youtube";
+            }
+        else if (strpos($video_url, "vimeo.com/") !== FALSE) {
+            $video_info->provider = "vimeo";
+            }
+        else if (strpos($video_url, "wistia.com/") !== FALSE)
+            {
+            $video_info->provider = "wistia";
+            }
+        else if (strpos($video_url, "viddler.com/") !== FALSE)
+            {
+            $video_info->provider = "viddler";
+            }
+
         // handle a simple output
         if ($output == "simple")
         {
