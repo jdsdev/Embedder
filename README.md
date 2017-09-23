@@ -36,10 +36,13 @@ Embedder will automatically enforce HTTPS if the provided video URL has a protoc
 
 - force_https='true'
 
-If you're using YouTube, you get access to two more parameters:
+If you're using YouTube, you can use any of the [supported embed parameters](https://developers.google.com/youtube/player_parameters#Parameters). Simply prefix the parameters with `youtube_`. Here are some common examples:
 
 - youtube_rel='0/1' -- Show related videos at end of video. Defaults to 1.
 - youtube_showinfo='0/1' -- Show the video title overlay. Defaults to 1.
+- youtube_controls='0/1' -- Show the video player controls. Defaults to 1.
+- youtube_autoplay='0/1' -- Automatically start playback of the video. Defaults to 0.
+- youtube_enablejsapi='0/1' -- Enable the YouTube IFrame or JavaScript APIs. Defaults to 0.
 
 If you're using Vimeo, you get access to seven more parameters and one more variable:
 

@@ -3,11 +3,24 @@ namespace Craft;
 
 class EmbedderService extends BaseApplicationComponent
 {
-    public function embed($video_url, $params, $output="simple")
+    /**
+     * Creates the video embed code.
+     *
+     * @param string $video_url The video's URL.
+     * @param array $params The video parameters.
+     * @param string $output
+     * @return array|mixed|\Twig_Markup
+     */
+    public function embed($video_url, $params = [], $output="simple")
     {
-        $cache_name = 'embedder_urls';
-        $refresh_cache = 10080;         // in mintues (default is 1 week)
-        $cache_expired = FALSE;
+        //is this a YouTube URL?
+        $isYouTube  = strpos($video_url, 'youtube.com/') !== false || strpos($video_url, 'youtu.be/') !== false;
+        $isVimeo    = strpos($video_url, 'vimeo.com/') !== false;
+        $isWistia   = strpos($video_url, 'wistia.com/') !== false;
+        $isViddler  = strpos($video_url, 'viddler.com/') !== false;
+
+        $refresh_cache = 10080; // in mintues (default is 1 week)
+        $cache_expired = false;
 
         $plugin_vars = array(
             "title"         =>  "video_title",
@@ -21,7 +34,6 @@ class EmbedderService extends BaseApplicationComponent
         );
 
         $video_data = array();
-
         foreach ($plugin_vars as $var) {
             $video_data[$var] = false;
         }
@@ -36,13 +48,9 @@ class EmbedderService extends BaseApplicationComponent
         if (empty($max_height)) $max_height = "&maxheight=" . $max_width;
 
         // cache can be disabled by setting 0 as the cache_minutes param
-        if (isset($params['cache_minutes']) && $params['cache_minutes'] !== FALSE && is_numeric($params['cache_minutes'])) {
+        if (isset($params['cache_minutes']) && $params['cache_minutes'] !== false && is_numeric($params['cache_minutes'])) {
             $this->refresh_cache = $params['cache_minutes'];
         }
-
-        // optional YouTube parameters
-        $youtube_rel = (isset($params['youtube_rel'])) ? $params['youtube_rel'] : null;
-        $youtube_showinfo = (isset($params['youtube_showinfo'])) ? $params['youtube_showinfo'] : null;
 
         // optional Vimeo parameters
         $vimeo_byline   = (isset($params['vimeo_byline']) && $params['vimeo_byline'] == "false") ? "&byline=false" : "";
@@ -50,7 +58,7 @@ class EmbedderService extends BaseApplicationComponent
         $vimeo_autoplay = (isset($params['vimeo_autoplay']) && $params['vimeo_autoplay'] == "true") ? "&autoplay=true" : "";
         $vimeo_portrait = (isset($params['vimeo_portrait']) && $params['vimeo_portrait'] == "false") ? "&portrait=false" : "";
         $vimeo_api      = (isset($params['vimeo_api']) && $params['vimeo_api'] == "true") ? "&api=1" : "";
-      
+
         $vimeo_color = (isset($params['vimeo_color'])) ? "&color=" . $params['vimeo_color'] : "";
         $vimeo_player_id = (isset($params['vimeo_player_id'])) ? $params['vimeo_player_id'] : "";
         $vimeo_player_id_str = (isset($params['vimeo_player_id'])) ? "&player_id=" . $params['vimeo_player_id'] : "";
@@ -69,14 +77,14 @@ class EmbedderService extends BaseApplicationComponent
             $is_https = true;
         }
 
-        // uf it's not YouTube, Vimeo, Wistia, or Viddler bail
-        if (strpos($video_url, "youtube.com/") !== FALSE OR strpos($video_url, "youtu.be/") !== FALSE) {
+        // if it's not YouTube, Vimeo, Wistia, or Viddler bail
+        if ($isYouTube) {
             $url = "http://www.youtube.com/oembed?format=xml&iframe=1" . ($is_https ? '&scheme=https' : '') . "&url=";
-        } else if (strpos($video_url, "vimeo.com/") !== FALSE) {
+        } else if ($isVimeo) {
             $url = "http" . ($is_https ? 's' : '') . "://vimeo.com/api/oembed.xml?url=";
-        } else if (strpos($video_url, "wistia.com/") !== FALSE) {
+        } else if ($isWistia) {
             $url = "http://app.wistia.com/embed/oembed.xml?url=";
-        } else if (strpos($video_url, "viddler.com/") !== FALSE) {
+        } else if ($isViddler) {
             $url = "http://www.viddler.com/oembed/?format=xml&url=";
         } else {
             return $video_data;
@@ -87,10 +95,10 @@ class EmbedderService extends BaseApplicationComponent
         // checking if url has been cached
         $cached_url = craft()->fileCache->get($url);
 
-        if (! $refresh_cache OR $cache_expired OR ! $cached_url)
+        if (!$refresh_cache || $cache_expired || !$cached_url)
         {
             // create the info and header variables
-            list($video_info, $video_header) = $this->curl($url);
+            list($video_info, $video_header) = $this->getVideoInfo($url);
 
             // write the data to cache if caching hasn't been disabled
             if ($refresh_cache) {
@@ -106,17 +114,18 @@ class EmbedderService extends BaseApplicationComponent
         libxml_use_internal_errors(true);
 
         $video_info = simplexml_load_string($video_info);
-        
+
         // gracefully fail if the video is not found
         if($video_info === false)
         {
             return "Video not found";
         }
-            
+
         // inject wmode transparent if required
-        if ($wmode === 'transparent' || $wmode === 'opaque' || $wmode === 'window' ) {
-            $param_str = '<param name="wmode" value="' . $wmode .'"></param>';
-            $embed_str = ' wmode="' . $wmode .'" ';
+        if ($wmode === 'transparent' || $wmode === 'opaque' || $wmode === 'window' )
+        {
+            $param_str = '<param name="wmode" value="' . $wmode . '"></param>';
+            $embed_str = ' wmode="' . $wmode . '" ';
 
             // determine whether we are dealing with iframe or embed and handle accordingly
             if (strpos($video_info->html, "<iframe") === false) {
@@ -135,20 +144,48 @@ class EmbedderService extends BaseApplicationComponent
             }
         }
 
-        // inject YouTube rel value if required
-        if (!is_null($youtube_rel) && (strpos($video_url, "youtube.com/") !== FALSE OR strpos($video_url, "youtu.be/") !== FALSE))
+        // add in the YouTube-specific params
+        if ($isYouTube)
         {
-            preg_match('/.*?src="(.*?)".*?/', $video_info->html, $matches);
-            if (!empty($matches[1])) $video_info->html = str_replace($matches[1], $matches[1] . '&rel=' . $youtube_rel, $video_info->html);
+            if (!empty($params) && is_array($params))
+            {
+                // keep track of existing params
+                $youTubeExtraParams = [];
+
+                foreach ($params as $key => $value)
+                {
+                    // if this param doesn't start with 'youtube_', then continue the loop
+                    if (strpos($key, 'youtube_') !== 0)
+                    {
+                        continue;
+                    }
+
+                    // if cannot get the text after 'youtube_', then continue the loop
+                    $youTubeKey = substr($key, 8);
+                    if (empty($youTubeKey))
+                    {
+                        continue;
+                    }
+
+                    // if the playlist is set to a url and not an id, then try to update it
+                    // regex from https://stackoverflow.com/a/26660288/1136822
+                    if ($youTubeKey === 'playlist' && preg_match("#([\/|\?|&]vi?[\/|=]|youtu\.be\/|embed\/)(\w+)#", $value, $matches))
+                    {
+                        $value = $matches[2];
+                    }
+
+                    $youTubeExtraParams[] = $youTubeKey.'='.$value;
+                }
+
+                // add the extra params to the URL
+                if (!empty($youTubeExtraParams))
+                {
+                    preg_match('/.*?src="(.*?)".*?/', $video_info->html, $matches);
+                    if (!empty($matches[1])) $video_info->html = str_replace($matches[1], $matches[1].'&'.implode('&', $youTubeExtraParams), $video_info->html);
+                }
+            }
         }
 
-        // inject YouTube show info if required
-        if (!is_null($youtube_showinfo) && (strpos($video_url, "youtube.com/") !== FALSE OR strpos($video_url, "youtu.be/") !== FALSE))
-        {
-            preg_match('/.*?src="(.*?)".*?/', $video_info->html, $matches);
-            if (!empty($matches[1])) $video_info->html = str_replace($matches[1], $matches[1] . '&showinfo=' . $youtube_showinfo, $video_info->html);
-        }
-      
         // add vimeo player id to iframe if set
         if ($vimeo_player_id!=="") {
             $video_info->html = preg_replace('/<iframe/i', '<iframe id="' . $vimeo_player_id . '"', $video_info->html);
@@ -160,36 +197,36 @@ class EmbedderService extends BaseApplicationComponent
         //$video_info->html = $twig_html;
 
         // actually setting thumbnails at a reasonably consistent size, as well as getting higher-res images
-        if(strpos($video_url, "youtube.com/") !== FALSE OR strpos($video_url, "youtu.be/") !== FALSE) {
+        if ($isYouTube) {
             $video_info->highres_url = str_replace('hqdefault','maxresdefault',$video_info->thumbnail_url);
             $video_info->medres_url = $video_info->thumbnail_url;
             $video_info->thumbnail_url = str_replace('hqdefault','mqdefault',$video_info->thumbnail_url);
-            }
-        else if (strpos($video_url, "vimeo.com/") !== FALSE) {
+        }
+        else if ($isVimeo) {
             $video_info->highres_url = preg_replace('/_(.*?)\./','_1280.',$video_info->thumbnail_url);
             $video_info->medres_url = preg_replace('/_(.*?)\./','_640.',$video_info->thumbnail_url);
             $video_info->thumbnail_url = preg_replace('/_(.*?)\./','_295.',$video_info->thumbnail_url);
-            }
-        else if (strpos($video_url, "wistia.com/") !== FALSE)
-            {
+        }
+        else if ($isWistia)
+        {
             $video_info->highres_url = str_replace('?image_crop_resized=100x60','',$video_info->thumbnail_url);
             $video_info->medres_url = str_replace('?image_crop_resized=100x60','?image_crop_resized=640x400',$video_info->thumbnail_url);
             $video_info->thumbnail_url = str_replace('?image_crop_resized=100x60','?image_crop_resized=240x135',$video_info->thumbnail_url);
-            }
-        else if (strpos($video_url, "viddler.com/") !== FALSE)
-            {
+        }
+        else if ($isViddler)
+        {
             $video_info->highres_url = $video_info->thumbnail_url;
             $video_info->medres_url = $video_info->thumbnail_url;
             $video_info->thumbnail_url = str_replace('thumbnail_2','thumbnail_1',$video_info->thumbnail_url);
-            }
-        
+        }
+
         // handle a simple output
         if ($output == "simple")
         {
             return $twig_html;
         }
 
-        // handle full output   
+        // handle full output
         foreach ($plugin_vars as $key => $var)
         {
             if (isset($video_info->$key))
@@ -198,20 +235,20 @@ class EmbedderService extends BaseApplicationComponent
             }
         }
 
-        $tagdata = $video_data;
-        foreach ($video_data as $key => $value)
-        {
-            $tagdata = str_replace("{".$key."}", $value, $tagdata);
-        }
-
         // replace the embed code with the Twig object
-        $tagdata['embed_code'] = $twig_html;
-        
-        return $tagdata;
+        $video_data['embed_code'] = $twig_html;
 
-    }   
+        return $video_data;
 
-    public function curl($vid_url) {
+    }
+
+    /**
+     * Request the video info via cURL or file_get_contents.
+     *
+     * @param string $vid_url The video URL.
+     * @return array An array containing the video info (or false) and the response code (or false).
+     */
+    public function getVideoInfo($vid_url) {
         // do we have curl?
         if (function_exists('curl_init'))
         {
@@ -222,6 +259,7 @@ class EmbedderService extends BaseApplicationComponent
                 CURLOPT_URL =>  $vid_url,
                 CURLOPT_RETURNTRANSFER => 1,
                 CURLOPT_CONNECTTIMEOUT => 10,
+                CURLOPT_SSL_VERIFYPEER => false //no ssl verification
             );
 
             curl_setopt_array($curl, $options);
@@ -234,13 +272,13 @@ class EmbedderService extends BaseApplicationComponent
 
         }
         // do we have fopen?
-        elseif (ini_get('allow_url_fopen') === TRUE)
+        elseif (ini_get('allow_url_fopen') === true)
         {
-            $video_header = ($video_info = file_get_contents($vid_url)) ? '200' : TRUE;
+            $video_header = ($video_info = file_get_contents($vid_url)) ? '200' : true;
         }
         else
         {
-            $video_header = $video_info = FALSE;
+            $video_header = $video_info = false;
         }
 
         return array($video_info, $video_header);
