@@ -74,7 +74,7 @@ If you're using Vimeo, you can use any of the [supported embed parameters](https
 - `vimeo_portrait: 0` - Shows the user's avatar on the video. Can be `0` or `1` (default).
 - `vimeo_loop: 1` - Loops the video playback. Can be `0` (default) or `1`.
 - `vimeo_autoplay: 1` - Automatically start playback of the video. Can be `0` (default) or `1`.
-- `vimeo_color: 'ff0000'` - Sets the theme color for the Vimeo player. Can be any hexidecimal color value (without the hash). Default to `00adef`.
+- `vimeo_color: 'ff0000'` - Sets the theme color for the Vimeo player. Can be any hexidecimal color value (without the hash). Defaults to `'00adef'`.
 
 You can also use the following Vimeo parameter:
 
