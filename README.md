@@ -1,18 +1,26 @@
-Embedder
-========
+# Embedder
 
-Embedder is a plugin for Craft CMS based on Antenna by Vector Media Group (https://github.com/vector/Antenna) that will generate the exact, most up-to-date YouTube, Vimeo, Wistia, or Viddler embed code available. It also gives you access to the video’s title, its author, the author’s YouTube/Vimeo URL, and a thumbnail. All you have to do is pass it a single URL.
+
+Embedder is a plugin for Craft CMS based on [Antenna](https://github.com/vector/Antenna) by Vector Media Group that will generate the exact, most up-to-date YouTube, Vimeo, Wistia, or Viddler embed code available. It also gives you access to the video’s title, its author, the author’s YouTube/Vimeo URL, and a thumbnail. All you have to do is pass it a single URL.
 
 You can also output various pieces of metadata about the video.
 
-Simple Usage
-------
+***
+
+## Simple Usage
+
+If used as a single tag (embedder.embed), it returns the HTML embed/object code for the video.
+
 ```twig
 {{ craft.embedder.embed (entry.embedderVideo, {max_width:500, max_height:800}) }}
 ```
 
-Full Usage
-------
+
+
+## Full Usage and Variables
+
+If used by setting the video URL, you get access to several variables.
+
 ```twig
 {% set video = craft.embedder.url(entry.embedderVideo, {max_width:500, max_height:800}) %}
 
@@ -24,49 +32,103 @@ Full Usage
 </ul>
 ```
 
-Set the max\_width and/or max\_height for whatever size your website requires. The video will be resized to be within those dimensions, and will stay at the correct proportions.
+There are three image sizes available for videos: `video_thumbnail`, `video_mediumres`, and `video_highres`. They are not consistent across services but they should fall into rough size brackets. `video_thumbnail` is going to be between 100-200px wide; `video_mediumres` will be around 400-500px wide; and `video_highres` will be at least the full size of your uploaded video and could be as wide as 1280px.
 
-The optional wmode parameter can be used if you're experiencing issues positioning HTML content in front of the embedded media. It accepts values of transparent, opaque and window.
 
-If used as a single tag (embedder.embed), it returns the HTML embed/object code for the video. If used by setting the video URL (embedder.url), you get access to the 5 variables above and can use them in conditionals.
 
-There are three image sizes available for videos: ```{video_thumbnail}```, ```{video_mediumres}```, and ```{video_highres}```. They are not consistent across services but they should fall into rough size brackets. ```{video_thumbnail}``` is going to be between 100-200px wide; ```{video_mediumres}``` will be around 400-500px wide; and ```{video_highres}``` will be at least the full size of your uploaded video and could be as wide as 1280px.
+## Parameters
+
+
+### Dimensions
+
+Set the `max_width` and/or `max_height` for whatever size your website requires. The video will be resized to be within those dimensions, and will stay at the correct proportions.
+
+- `max_width: 500` - Can be any number. Left unspecified by default.
+- `max_height: 800` - Can be any number. Left unspecified by default.
+
+
+### Force HTTPS
 
 Embedder will automatically enforce HTTPS if the provided video URL has a protocol of https:// and is supported by the video service. Alternatively, you can also attempt to force the particular service to return the HTTPS resource by adding the parameter:
 
-- force_https='true'
+- `force_https: true`
 
-If you're using YouTube, you can use any of the [supported embed parameters](https://developers.google.com/youtube/player_parameters#Parameters). Simply prefix the parameters with `youtube_`. Here are some common examples:
 
-- youtube_rel='0/1' -- Show related videos at end of video. Defaults to 1.
-- youtube_showinfo='0/1' -- Show the video title overlay. Defaults to 1.
-- youtube_controls='0/1' -- Show the video player controls. Defaults to 1.
-- youtube_autoplay='0/1' -- Automatically start playback of the video. Defaults to 0.
-- youtube_enablejsapi='0/1' -- Enable the YouTube IFrame or JavaScript APIs. Defaults to 0.
+### YouTube
 
-If you're using Vimeo, you get access to seven more parameters and one more variable:
+If you're using YouTube, you can use any of the [supported embed parameters](https://developers.google.com/youtube/player_parameters#Parameters). Simply prefix the parameters with `youtube_`. Here are some common parameters:
 
-- vimeo_byline='true/false' -- Shows the byline on the video. Defaults to true.
-- vimeo_title='true/false' -- Shows the title on the video. Defaults to true.
-- vimeo_portrait='true/false' -- Shows the user's avatar on the video. Defaults to true.
-- vimeo_autoplay='true/false' -- Automatically start playback of the video. Defaults to false.
-- vimeo_api='true/false' -- Adds 'api=1' to the vimeo embed url to allow JavaScript API usage. Defaults to false.
-- vimeo_player_id -- Sets an ID on the player, which is useful if you want to control multiple videos on the same page in a different way.
-- vimeo_color -- Sets the theme color for the Vimeo player
-- {video_description} -- The description of the video, as set in Vimeo
+- `youtube_rel: 0` - Show related videos at the end of the video. Can be `0` or `1` (default).
+- `youtube_showinfo: 0` - Show the video title overlay. Can be `0` or `1'` (default).
+- `youtube_controls: 0` - Show the video player controls. Can be `0` or `1'` (default).
+- `youtube_autoplay: 1` - Automatically start playback of the video. Can be `0` (default) or `1'`.
+- `youtube_enablejsapi: 1` - Enable the YouTube IFrame or JavaScript APIs. Can be `0` (default) or `1'`.
+
+
+### Vimeo
+
+If you're using Vimeo, you can use any of the [supported embed parameters](https://github.com/vimeo/player.js#embed-options). Simply prefix the parameters with `vimeo_`. Here are some of the common parameters:
+
+- `vimeo_byline: 0` - Shows the byline on the video. Can be `0` or `1` (default).
+- `vimeo_title: 0` - Shows the title on the video.  Can be `0` or `1` (default).
+- `vimeo_portrait: 0` - Shows the user's avatar on the video. Can be `0` or `1` (default).
+- `vimeo_loop: 1` - Loops the video playback. Can be `0` (default) or `1`.
+- `vimeo_autoplay: 1` - Automatically start playback of the video. Can be `0` (default) or `1`.
+- `vimeo_color: 'ff0000'` - Sets the theme color for the Vimeo player. Can be any hexidecimal color value (without the hash). Default to `00adef`.
+
+You can also use the following Vimeo parameter:
+
+- `vimeo_player_id: 'myVideoPlayer'` - Sets an ID on the player, which is useful if you want to control multiple videos on the same page in a different way.
+
+The following extra variable is available when using Vimeo:
+
+- `{{ video_description }}` - The description of the video, as set in Vimeo
+
+
+### Viddler
 
 If you're using Viddler, you get access to two more parameters:
 
-- viddler_type='simple/player' -- Specifies the player type. Defaults to player.
-- viddler_ratio='widescreen/fullscreen' -- Aspect ratio will be automatically determined if not set.
+- `viddler_type: 'simple'` - Specifies the player type. Can be `'simple'` or `'player'` (default).
+- `viddler_ratio: 'widescreen'` - Aspect ratio. Can be `'widescreen'`, `'fullscreen'`, or left unspecified for automatically determined aspect ratio.
+
+
+### Wistia
 
 If you're using Wistia, you get access to two more parameters:
 
-- wistia_type -- Sets the supported embed type
-- wistia_foam='true/false' -- Makes the embedded video responsive using Wistia's Video Foam feature
+- `wistia_type` - Sets the supported embed type.
+- `wistia_foam: true` - Makes the embedded video responsive using Wistia's Video Foam feature.
 
-Warranty/License
-------
+
+### HTML Output Control
+
+You can also also control your output with the following parameters:
+
+- `id: 'myId'` - Gives the iFrame an `id=` attribute with the specified value.
+- `class: 'video player'` - Gives the iFrame a `class=` attribute with the specified value.
+- `attributes: 'data-video data-player'` - Gives the iFrame the specified HTML attribute(s).
+
+
+
+### wmode (deprecated with most providers)
+
+The optional `wmode` parameter can be used if you're experiencing issues positioning HTML content in front of the embedded media. It accepts values of `transparent`, `opaque` and `window`.
+
+***
+
+
+
+## Contributions
+
+- [Aaron Waldon](https://github.com/aaronwaldon) / @aaronwaldon - Reworked the logic to allow any provider parameters to be used. Added HTML output control parameters and updated the documentation.
+
+***
+
+
+
+## Warranty/License
+
 There's no warranty of any kind. If you find a bug, please tell me and I may try to fix it. It's provided completely as-is; if something breaks, you lose data, or something else bad happens, the author(s) and owner(s) of this plugin are in no way responsible.
 
 This plugin is owned by Pinkston Digital (http://pinkstondigital.com). You can modify it and use it for your own personal or commercial projects, but you can't redistribute it.
