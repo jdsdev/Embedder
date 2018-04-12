@@ -1,8 +1,12 @@
 <?php
 
-namespace Craft;
+namespace ap\embedder\services;
 
-class EmbedderService extends BaseApplicationComponent
+use Craft;
+use craft\base\Component;
+use craft\helpers\Template;
+
+class EmbedderService extends Component
 {
     /**
      * Creates the video embed code.
@@ -118,7 +122,7 @@ class EmbedderService extends BaseApplicationComponent
         }
 
         // checking if url has been cached
-        $cached_url = craft()->fileCache->get($url);
+        $cached_url = Craft::$app->cache->get($url);
 
         if (!$cache_refresh_minutes || $is_cache_expired || !$cached_url)
         {
@@ -128,7 +132,7 @@ class EmbedderService extends BaseApplicationComponent
             // write the data to cache if caching hasn't been disabled
             if ($cache_refresh_minutes)
             {
-                craft()->fileCache->set($url, $video_info, $cache_refresh_minutes);
+              Craft::$app->cache->set($url, $video_info, $cache_refresh_minutes);
             }
         }
         else
@@ -227,9 +231,7 @@ class EmbedderService extends BaseApplicationComponent
         }
 
         // set the encode html to output properly in Twig
-        $charset = craft()->templates->getTwig()->getCharset();
-        $twig_html = new \Twig_Markup($video_info->html, $charset);
-        //$video_info->html = $twig_html;
+        $twig_html = Template::raw($video_info->html);
 
         // actually setting thumbnails at a reasonably consistent size, as well as getting higher-res images
         if ($isYouTube)

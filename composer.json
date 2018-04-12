@@ -1,0 +1,35 @@
+{
+  "name": "ap/craft-embedder",
+  "description": "Generate video embed code.",
+  "version": "2.0.0",
+  "type": "craft-plugin",
+  "keywords": [
+      "craft",
+      "cms",
+      "craftcms",
+      "craft-plugin",
+      "embedder"
+  ],
+  "authors": [
+    {
+      "name": "Pinkston Digital",
+      "homepage": "http://pinkstondigital.com"
+    }
+  ],
+  "require": {
+    "craftcms/cms": "^3.0.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "ap\\embedder\\": "embedder/"
+    }
+  },
+  "extra": {
+    "name": "Embedder",
+    "handle": "embedder",
+    "components": {
+      "embedder": "ap\\embedder\\services\\EmbedderService"
+    },
+    "class": "ap\\embedder\\Embedder"
+  }
+}
