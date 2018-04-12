@@ -28,6 +28,11 @@ class Embedder extends \craft\base\Plugin
     /**
     * @inheritdoc
     */
+    public $schemaVersion = '1.0.1';
+
+    /**
+    * @inheritdoc
+    */
     public $hasCpSettings = false;
 
     /**
