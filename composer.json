@@ -27,6 +27,7 @@
   "extra": {
     "name": "Embedder",
     "handle": "embedder",
+    "changelogUrl": "https://raw.githubusercontent.com/A-P/Embedder/master/CHANGELOG.md",
     "components": {
       "embedder": "ap\\embedder\\services\\EmbedderService"
     },
