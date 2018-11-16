@@ -1,11 +1,10 @@
 # Embedder
 
-
 Embedder is a plugin for Craft CMS based on [Antenna](https://github.com/vector/Antenna) by Vector Media Group that will generate the exact, most up-to-date YouTube, Vimeo, Wistia, or Viddler embed code available. It also gives you access to the video’s title, its author, the author’s YouTube/Vimeo URL, and a thumbnail. All you have to do is pass it a single URL.
 
 You can also output various pieces of metadata about the video.
 
-***
+---
 
 ## Simple Usage
 
@@ -14,8 +13,6 @@ If used as a single tag (embedder.embed), it returns the HTML embed/object code 
 ```twig
 {{ craft.embedder.embed (entry.embedderVideo, {max_width:500, max_height:800}) }}
 ```
-
-
 
 ## Full Usage and Variables
 
@@ -34,10 +31,7 @@ If used by setting the video URL, you get access to several variables.
 
 There are three image sizes available for videos: `video_thumbnail`, `video_mediumres`, and `video_highres`. They are not consistent across services but they should fall into rough size brackets. `video_thumbnail` is going to be between 100-200px wide; `video_mediumres` will be around 400-500px wide; and `video_highres` will be at least the full size of your uploaded video and could be as wide as 1280px.
 
-
-
 ## Parameters
-
 
 ### Dimensions
 
@@ -46,13 +40,11 @@ Set the `max_width` and/or `max_height` for whatever size your website requires.
 - `max_width: 500` - Can be any number. Left unspecified by default.
 - `max_height: 800` - Can be any number. Left unspecified by default.
 
-
 ### Force HTTPS
 
 Embedder will automatically enforce HTTPS if the provided video URL has a protocol of https:// and is supported by the video service. Alternatively, you can also attempt to force the particular service to return the HTTPS resource by adding the parameter:
 
 - `force_https: true`
-
 
 ### YouTube
 
@@ -64,13 +56,12 @@ If you're using YouTube, you can use any of the [supported embed parameters](htt
 - `youtube_autoplay: 1` - Automatically start playback of the video. Can be `0` (default) or `1`.
 - `youtube_enablejsapi: 1` - Enable the YouTube IFrame or JavaScript APIs. Can be `0` (default) or `1`.
 
-
 ### Vimeo
 
 If you're using Vimeo, you can use any of the [supported embed parameters](https://github.com/vimeo/player.js#embed-options). Simply prefix the parameters with `vimeo_`. Here are some of the common parameters:
 
 - `vimeo_byline: 0` - Shows the byline on the video. Can be `0` or `1` (default).
-- `vimeo_title: 0` - Shows the title on the video.  Can be `0` or `1` (default).
+- `vimeo_title: 0` - Shows the title on the video. Can be `0` or `1` (default).
 - `vimeo_portrait: 0` - Shows the user's avatar on the video. Can be `0` or `1` (default).
 - `vimeo_loop: 1` - Loops the video playback. Can be `0` (default) or `1`.
 - `vimeo_autoplay: 1` - Automatically start playback of the video. Can be `0` (default) or `1`.
@@ -84,7 +75,6 @@ The following extra variable is available when using Vimeo:
 
 - `{{ video_description }}` - The description of the video, as set in Vimeo
 
-
 ### Viddler
 
 If you're using Viddler, you get access to two more parameters:
@@ -92,14 +82,12 @@ If you're using Viddler, you get access to two more parameters:
 - `viddler_type: 'simple'` - Specifies the player type. Can be `'simple'` or `'player'` (default).
 - `viddler_ratio: 'widescreen'` - Aspect ratio. Can be `'widescreen'`, `'fullscreen'`, or left unspecified for automatically determined aspect ratio.
 
-
 ### Wistia
 
 If you're using Wistia, you get access to two more parameters:
 
 - `wistia_type` - Sets the supported embed type.
 - `wistia_foam: true` - Makes the embedded video responsive using Wistia's Video Foam feature.
-
 
 ### HTML Output Control
 
@@ -109,23 +97,19 @@ You can also also control your output with the following parameters:
 - `class: 'video player'` - Gives the iFrame a `class=` attribute with the specified value.
 - `attributes: 'data-video data-player'` - Gives the iFrame the specified HTML attribute(s).
 
-
-
 ### wmode (deprecated with most providers)
 
 The optional `wmode` parameter can be used if you're experiencing issues positioning HTML content in front of the embedded media. It accepts values of `transparent`, `opaque` and `window`.
 
-***
-
-
+---
 
 ## Contributions
 
 - [Aaron Waldon](https://github.com/aaronwaldon) / @aaronwaldon - Reworked the logic to allow any provider parameters to be used. Added HTML output control parameters and updated the documentation.
 
-***
+- [Jonathan Sarmiento](https://github.com/jdsdev) - Updated the plugin for Craft 3.
 
-
+---
 
 ## Warranty/License
 

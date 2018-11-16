@@ -1,7 +1,7 @@
 {
   "name": "ap/craft-embedder",
   "description": "Generate video embed code.",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "type": "craft-plugin",
   "keywords": [
       "craft",
@@ -14,6 +14,10 @@
     {
       "name": "Pinkston Digital",
       "homepage": "http://pinkstondigital.com"
+    },
+    {
+      "name": "jonathan@jdsdev.com",
+      "homepage": "https://jdsdev.com/"
     }
   ],
   "require": {
@@ -27,7 +31,7 @@
   "extra": {
     "name": "Embedder",
     "handle": "embedder",
-    "changelogUrl": "https://raw.githubusercontent.com/A-P/Embedder/master/CHANGELOG.md",
+    "changelogUrl": "https://raw.githubusercontent.com/jdsdev/Embedder/master/CHANGELOG.md",
     "components": {
       "embedder": "ap\\embedder\\services\\EmbedderService"
     },
