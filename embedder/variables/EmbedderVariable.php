@@ -1,5 +1,9 @@
 <?php
-namespace Craft;
+
+namespace jdsdev\embedder\variables;
+
+use Craft;
+use jdsdev\embedder\Embedder;
 
 class EmbedderVariable
 {
@@ -15,11 +19,11 @@ class EmbedderVariable
 
     public function embed($url, $params = array())
     {
-        return craft()->embedder->embed($url, $params, "simple");
+        return Embedder::$plugin->embedder->embed($url, $params, "simple");
     }
 
     public function url($url, $params = array())
     {
-        return craft()->embedder->embed($url, $params, "full");
+        return Embedder::$plugin->embedder->embed($url, $params, "full");
     }
 }
