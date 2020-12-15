@@ -60,12 +60,6 @@ Set the `max_width` and/or `max_height` for whatever size your website requires.
 - `max_width: 500` - Can be any number. Left unspecified by default.
 - `max_height: 800` - Can be any number. Left unspecified by default.
 
-### Force HTTPS
-
-Embedder will automatically enforce HTTPS if the provided video URL has a protocol of https:// and is supported by the video service. Alternatively, you can also attempt to force the particular service to return the HTTPS resource by adding the parameter:
-
-- `force_https: true`
-
 ### YouTube
 
 If you're using YouTube, you can use any of the [supported embed parameters](https://developers.google.com/youtube/player_parameters#Parameters). Simply prefix the parameters with `youtube_`. Here are some common parameters:
