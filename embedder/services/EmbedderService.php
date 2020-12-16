@@ -40,29 +40,22 @@ class EmbedderService extends BaseApplicationComponent
             $video_data[$var] = false;
         }
 
-        // automatically handle scheme if https
-        $is_https = false;
-        if (isset($params['force_https']) && $params['force_https'] || parse_url($video_url, PHP_URL_SCHEME) == 'https')
-        {
-            $is_https = true;
-        }
-
         // if it's not YouTube, Vimeo, Wistia, or Viddler bail
         if ($isYouTube)
         {
-            $url = "http://www.youtube.com/oembed?format=xml&iframe=1" . ($is_https ? '&scheme=https' : '') . "&url=";
+            $url = "https://www.youtube.com/oembed?format=xml&iframe=1&url=";
         }
         else if ($isVimeo)
         {
-            $url = "http" . ($is_https ? 's' : '') . "://vimeo.com/api/oembed.xml?url=";
+            $url = "https://vimeo.com/api/oembed.xml?url=";
         }
         else if ($isWistia)
         {
-            $url = "http://app.wistia.com/embed/oembed.xml?url=";
+            $url = "https://app.wistia.com/embed/oembed.xml?url=";
         }
         else if ($isViddler)
         {
-            $url = "http://www.viddler.com/oembed/?format=xml&url=";
+            $url = "https://www.viddler.com/oembed/?format=xml&url=";
         }
         else
         {
@@ -73,10 +66,6 @@ class EmbedderService extends BaseApplicationComponent
         // set the semi-ubiquitous parameters
         $max_width = isset($params['max_width']) ? "&maxwidth=" . $params['max_width'] : "";
         $max_height = isset($params['max_height']) ? "&maxheight=" . $params['max_height'] : "";
-        if (empty($max_height)) // correct for a bug in YouTube response if only maxheight is set and the video is over 612px wide
-        {
-            $max_height = "&maxheight=" . $max_width;
-        }
         $wmode_param = isset($params['wmode']) ? "&wmode=" . $params['wmode'] : "";
         $url .= $max_width . $max_height . $wmode_param;
 
