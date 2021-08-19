@@ -139,7 +139,7 @@ class EmbedderService extends Component
         // gracefully fail if the video is not found
         if ($video_info === false)
         {
-            return $output == 'Video not found' ? '' : $video_data;
+            return $output === 'simple' ? 'Video not found' : $video_data;
         }
 
         // inject wmode transparent if required

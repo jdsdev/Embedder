@@ -1,5 +1,11 @@
 # Embedder Changelog
 
+## 2.0.2 - 2021-8-19
+
+### Fixed
+
+- Fix code that handles graceful failure when a video is not found
+
 ## 2.0.1 - 2020-12-15
 
 ### Fixed
