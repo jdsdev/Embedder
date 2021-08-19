@@ -28,12 +28,12 @@ class EmbedderFieldType extends Field
     /**
      * @inheritdoc
      */
-    public function getInputHtml($value, ElementInterface $element = null): string
+    public function getInputHtml($value, ?ElementInterface $element = null): string
     {
         $variables = [
-          'name' => $this->handle,
-          'value' => $value,
-          'field' => $this,
+            'name' => $this->handle,
+            'value' => $value,
+            'field' => $this,
         ];
 
         return Craft::$app->getView()->renderTemplate(
@@ -41,5 +41,4 @@ class EmbedderFieldType extends Field
             $variables
         );
     }
-
 }

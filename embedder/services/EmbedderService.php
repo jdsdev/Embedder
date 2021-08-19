@@ -13,10 +13,11 @@ class EmbedderService extends Component
      *
      * @param string $video_url The video's URL.
      * @param array $params The video parameters.
-     * @param string $output
+     * @param string|null $output Can be 'simple' or 'full'.
+     *
      * @return array|mixed|\Twig_Markup
      */
-    public function embed($video_url, $params = [], $output = "simple")
+    public function embed(string $video_url, array $params = [], ?string $output = 'simple')
     {
         //is this a YouTube URL?
         $isYouTube  = strpos($video_url, 'youtube.com/') !== false || strpos($video_url, 'youtu.be/') !== false;
@@ -27,18 +28,19 @@ class EmbedderService extends Component
         $cache_refresh_minutes = 10080; // in minutes (default is 1 week)
         $is_cache_expired = false;
 
-        $plugin_vars = array(
-            "title"         =>  "video_title",
-            "html"          =>  "embed_code",
-            "author_name"   =>  "video_author",
-            "author_url"    =>  "video_author_url",
-            "thumbnail_url" =>  "video_thumbnail",
-            "medres_url"    =>  "video_mediumres",
-            "highres_url"   =>  "video_highres",
-            "description"   =>  "video_description"
-        );
+        $plugin_vars = [
+            'title'         =>  'video_title',
+            'html'          =>  'embed_code',
+            'author_name'   =>  'video_author',
+            'author_url'    =>  'video_author_url',
+            'thumbnail_url' =>  'video_thumbnail',
+            'medres_url'    =>  'video_mediumres',
+            'highres_url'   =>  'video_highres',
+            'description'   =>  'video_description',
+        ];
 
-        $video_data = array();
+        $video_data = [];
+
         foreach ($plugin_vars as $var)
         {
             $video_data[$var] = false;
@@ -47,30 +49,30 @@ class EmbedderService extends Component
         // if it's not YouTube, Vimeo, Wistia, or Viddler bail
         if ($isYouTube)
         {
-            $url = "https://www.youtube.com/oembed?format=xml&iframe=1&url=";
+            $url = 'https://www.youtube.com/oembed?format=xml&iframe=1&url=';
         }
         else if ($isVimeo)
         {
-            $url = "https://vimeo.com/api/oembed.xml?url=";
+            $url = 'https://vimeo.com/api/oembed.xml?url=';
         }
         else if ($isWistia)
         {
-            $url = "http://app.wistia.com/embed/oembed.xml?url=";
+            $url = 'http://app.wistia.com/embed/oembed.xml?url=';
         }
         else if ($isViddler)
         {
-            $url = "http://www.viddler.com/oembed/?format=xml&url=";
+            $url = 'http://www.viddler.com/oembed/?format=xml&url=';
         }
         else
         {
-            return $output == "simple" ? '' : $video_data;
+            return $output === 'simple' ? '' : $video_data;
         }
         $url .= urlencode($video_url);
 
         // set the semi-ubiquitous parameters
-        $max_width = isset($params['max_width']) ? "&maxwidth=" . $params['max_width'] : "";
-        $max_height = isset($params['max_height']) ? "&maxheight=" . $params['max_height'] : "";
-        $wmode_param = isset($params['wmode']) ? "&wmode=" . $params['wmode'] : "";
+        $max_width = isset($params['max_width']) ? '&maxwidth=' . $params['max_width'] : '';
+        $max_height = isset($params['max_height']) ? '&maxheight=' . $params['max_height'] : '';
+        $wmode_param = isset($params['wmode']) ? '&wmode=' . $params['wmode'] : '';
         $url .= $max_width . $max_height . $wmode_param;
 
         // cache can be disabled by setting 0 as the cache_minutes param
@@ -137,22 +139,22 @@ class EmbedderService extends Component
         // gracefully fail if the video is not found
         if ($video_info === false)
         {
-            return $output == "Video not found" ? '' : $video_data;
+            return $output == 'Video not found' ? '' : $video_data;
         }
 
         // inject wmode transparent if required
-        $wmode = isset($params['wmode']) ? $params['wmode'] : "";
+        $wmode = $params['wmode'] ?? '';
         if ($wmode === 'transparent' || $wmode === 'opaque' || $wmode === 'window')
         {
             $param_str = '<param name="wmode" value="'.$wmode.'"></param>';
             $embed_str = ' wmode="' . $wmode . '" ';
 
             // determine whether we are dealing with iframe or embed and handle accordingly
-            if (strpos($video_info->html, "<iframe") === false)
+            if (strpos($video_info->html, '<iframe') === false)
             {
-                $param_pos = strpos($video_info->html, "<embed");
+                $param_pos = strpos($video_info->html, '<embed');
                 $video_info->html = substr($video_info->html, 0, $param_pos) . $param_str . substr($video_info->html, $param_pos);
-                $param_pos = strpos($video_info->html, "<embed") + 6;
+                $param_pos = strpos($video_info->html, '<embed') + 6;
                 $video_info->html = substr($video_info->html, 0, $param_pos) . $embed_str . substr($video_info->html, $param_pos);
             }
             else
@@ -249,7 +251,7 @@ class EmbedderService extends Component
         }
 
         // handle a simple output
-        if ($output == "simple")
+        if ($output === 'simple')
         {
             return $twig_html;
         }
@@ -274,9 +276,10 @@ class EmbedderService extends Component
      * Request the video info via cURL or file_get_contents.
      *
      * @param string $vid_url The video URL.
+     *
      * @return array An array containing the video info (or false) and the response code (or false).
      */
-    public function getVideoInfo($vid_url)
+    public function getVideoInfo(string $vid_url): array
     {
         // do we have curl?
         if (function_exists('curl_init'))
@@ -284,12 +287,12 @@ class EmbedderService extends Component
             $curl = curl_init();
 
             // cURL options
-            $options = array(
+            $options = [
                 CURLOPT_URL => $vid_url,
                 CURLOPT_RETURNTRANSFER => 1,
                 CURLOPT_CONNECTTIMEOUT => 10,
                 CURLOPT_SSL_VERIFYPEER => false //no ssl verification
-            );
+            ];
 
             curl_setopt_array($curl, $options);
 
@@ -309,7 +312,7 @@ class EmbedderService extends Component
             $video_header = $video_info = false;
         }
 
-        return array($video_info, $video_header);
+        return [$video_info, $video_header];
     }
 
     /**
@@ -318,9 +321,10 @@ class EmbedderService extends Component
      *
      * @param array $params The array of params to check.
      * @param string $prefix The prefix that keys should start with in order to be returned.
+     *
      * @return array The array of (unprefixed) key => value pairs that matched the specified prefix.
      */
-    private function getPrefixedParams($params = [], $prefix = '')
+    private function getPrefixedParams(array $params = [], string $prefix = ''): array
     {
         $prefixedParams = [];
 
@@ -354,9 +358,10 @@ class EmbedderService extends Component
      * Converts an array of key => value pairs to a URL param string.
      *
      * @param array $pairs An array of key => value pairs
+     *
      * @return string The resulting string. Ex: key=value&key2=value2
      */
-    private function makeUrlKeyValuePairsString($pairs = [])
+    private function makeUrlKeyValuePairsString(array $pairs = []): string
     {
         $chunks = [];
 

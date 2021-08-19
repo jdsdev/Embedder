@@ -2,28 +2,27 @@
 
 namespace jdsdev\embedder\variables;
 
-use Craft;
 use jdsdev\embedder\Embedder;
 
 class EmbedderVariable
 {
-    function set($name = "", $value = "", $expire = "", $path = "", $domain = "", $secure = "", $httponly = "")
+    function set($name = '', $value = '', $expire = '', $path = '', $domain = '', $secure = '', $httponly = '')
     {
         return 'set success';
     }
-    
+
     function get($name)
     {
-        return 'get success!' . $name;      
+        return 'get success!' . $name;
     }
 
-    public function embed($url, $params = array())
+    public function embed($url, $params = [])
     {
-        return Embedder::$plugin->embedder->embed($url, $params, "simple");
+        return Embedder::$plugin->embedder->embed($url, $params, 'simple');
     }
 
-    public function url($url, $params = array())
+    public function url($url, $params = [])
     {
-        return Embedder::$plugin->embedder->embed($url, $params, "full");
+        return Embedder::$plugin->embedder->embed($url, $params, 'full');
     }
 }

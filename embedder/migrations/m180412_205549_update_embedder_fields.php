@@ -2,7 +2,6 @@
 
 namespace jdsdev\embedder\migrations;
 
-use Craft;
 use craft\db\Migration;
 use jdsdev\embedder\fields\EmbedderFieldType;
 
