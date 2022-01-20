@@ -1,6 +1,6 @@
 # Embedder
 
-Embedder is a plugin for Craft CMS based on [Antenna](https://github.com/vector/Antenna) by Vector Media Group that will generate the exact, most up-to-date YouTube, Vimeo, Wistia, or Viddler embed code available. It also gives you access to the video’s title, its author, the author’s YouTube/Vimeo URL, and a thumbnail. All you have to do is pass it a single URL.
+Embedder is a plugin for Craft CMS based on [Antenna](https://github.com/vector/Antenna) by Vector Media Group that will generate embed code for YouTube, Vimeo, Wistia, or Viddler. It also gives you access to the video’s title, its author, the author’s YouTube/Vimeo URL, and a thumbnail. All you have to do is pass it a single URL.
 
 You can also output various pieces of metadata about the video.
 
@@ -105,7 +105,7 @@ If you're using Wistia, you get access to two more parameters:
 
 ### HTML Output Control
 
-You can also also control your output with the following parameters:
+You can also control your output with the following parameters:
 
 - `id: 'myId'` - Gives the iFrame an `id=` attribute with the specified value.
 - `class: 'video player'` - Gives the iFrame a `class=` attribute with the specified value.
@@ -119,6 +119,8 @@ The optional `wmode` parameter can be used if you're experiencing issues positio
 
 ## Contributions
 
+- [Adam Powell](https://github.com/A-P) - Original plugin author.
+
 - [Aaron Waldon](https://github.com/aaronwaldon) / @aaronwaldon - Reworked the logic to allow any provider parameters to be used. Added HTML output control parameters and updated the documentation.
 
-- [Jonathan Sarmiento](https://github.com/jdsdev) - Updated the plugin for Craft 3.
+- [Jonathan Sarmiento](https://github.com/jdsdev) - Updated the plugin for Craft 3 and handling ongoing updates.

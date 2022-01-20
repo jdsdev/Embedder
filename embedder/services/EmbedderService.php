@@ -19,7 +19,7 @@ class EmbedderService extends Component
      */
     public function embed(string $video_url, array $params = [], ?string $output = 'simple')
     {
-        //is this a YouTube URL?
+        // Which provider is this URL for?
         $isYouTube  = strpos($video_url, 'youtube.com/') !== false || strpos($video_url, 'youtu.be/') !== false;
         $isVimeo    = strpos($video_url, 'vimeo.com/') !== false;
         $isWistia   = strpos($video_url, 'wistia.com/') !== false;
@@ -173,7 +173,7 @@ class EmbedderService extends Component
             $youTubeParams = $this->getPrefixedParams($params, 'youtube_');
             if (!empty($youTubeParams))
             {
-                //handle any YouTube-specific param updates
+                // handle any YouTube-specific param updates
                 if (isset($youTubeParams['playlist']))
                 {
                     // if the playlist is set to a url and not an id, then try to update it
@@ -185,7 +185,7 @@ class EmbedderService extends Component
                     }
                 }
 
-                //work the params into the embed URL
+                // work the params into the embed URL
                 preg_match('/.*?src="(.*?)".*?/', $video_info->html, $matches);
                 if (!empty($matches[1]))
                 {
@@ -269,7 +269,6 @@ class EmbedderService extends Component
         $video_data['embed_code'] = $twig_html;
 
         return $video_data;
-
     }
 
     /**
@@ -291,7 +290,7 @@ class EmbedderService extends Component
                 CURLOPT_URL => $vid_url,
                 CURLOPT_RETURNTRANSFER => 1,
                 CURLOPT_CONNECTTIMEOUT => 10,
-                CURLOPT_SSL_VERIFYPEER => false //no ssl verification
+                CURLOPT_SSL_VERIFYPEER => false // no ssl verification
             ];
 
             curl_setopt_array($curl, $options);
@@ -301,7 +300,6 @@ class EmbedderService extends Component
 
             // close the request
             curl_close($curl);
-
         } // do we have fopen?
         elseif (ini_get('allow_url_fopen') === true)
         {

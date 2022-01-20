@@ -6,6 +6,10 @@
 
 - Fix code that handles graceful failure when a video is not found
 
+### Changed
+
+- Add type hinting to EmbedderService
+
 ## 2.0.1 - 2020-12-15
 
 ### Fixed
@@ -17,4 +21,4 @@
 
 ### Added
 
-- Added support for Craft 3.
+- Added support for Craft 3
