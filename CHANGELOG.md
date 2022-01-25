@@ -1,5 +1,11 @@
 # Embedder Changelog
 
+## 2.0.3 - 2022-1-25
+
+### Added
+
+- Add support for YouTube privacy-enhanced mode via `youtube_privacyEnhanced` parameter
+
 ## 2.0.2 - 2021-8-19
 
 ### Fixed

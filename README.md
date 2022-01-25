@@ -70,6 +70,10 @@ If you're using YouTube, you can use any of the [supported embed parameters](htt
 - `youtube_autoplay: 1` - Automatically start playback of the video. Can be `0` (default) or `1`.
 - `youtube_enablejsapi: 1` - Enable the YouTube IFrame or JavaScript APIs. Can be `0` (default) or `1`.
 
+Additionally the following non-standard parameter is available when using YouTube:
+
+- `youtube_privacyEnhanced: 1` - Use [YouTube's privacy-enhanced mode](https://support.google.com/youtube/answer/171780#zippy=%2Cturn-on-privacy-enhanced-mode). Can be `0` (default) or `1`.
+
 ### Vimeo
 
 If you're using Vimeo, you can use any of the [supported embed parameters](https://github.com/vimeo/player.js#embed-options). Simply prefix the parameters with `vimeo_`. Here are some of the common parameters:

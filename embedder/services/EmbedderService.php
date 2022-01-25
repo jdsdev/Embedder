@@ -170,6 +170,13 @@ class EmbedderService extends Component
         // add in the YouTube-specific params
         if ($isYouTube)
         {
+            // Check for privacy-enhanced mode
+            if (isset($params['youtube_privacyEnhanced']))
+            {
+                unset($params['youtube_privacyEnhanced']);
+                $video_info->html = str_replace('youtube.com', 'youtube-nocookie.com', $video_info->html);
+            }
+
             $youTubeParams = $this->getPrefixedParams($params, 'youtube_');
             if (!empty($youTubeParams))
             {
