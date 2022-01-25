@@ -51,15 +51,15 @@ class EmbedderService extends Component
         {
             $url = 'https://www.youtube.com/oembed?format=xml&iframe=1&url=';
         }
-        else if ($isVimeo)
+        elseif ($isVimeo)
         {
             $url = 'https://vimeo.com/api/oembed.xml?url=';
         }
-        else if ($isWistia)
+        elseif ($isWistia)
         {
             $url = 'http://app.wistia.com/embed/oembed.xml?url=';
         }
-        else if ($isViddler)
+        elseif ($isViddler)
         {
             $url = 'http://www.viddler.com/oembed/?format=xml&url=';
         }
@@ -87,7 +87,7 @@ class EmbedderService extends Component
         {
             $providerExtraParams = $this->getPrefixedParams($params, 'vimeo_');
         }
-        else if ($isWistia)
+        elseif ($isWistia)
         {
             $providerExtraParams = $this->getPrefixedParams($params, 'wistia_');
 
@@ -103,7 +103,7 @@ class EmbedderService extends Component
                 unset($providerExtraParams['foam']);
             }
         }
-        else if ($isViddler)
+        elseif ($isViddler)
         {
             $providerExtraParams = $this->getPrefixedParams($params, 'viddler_');
         }
@@ -200,7 +200,7 @@ class EmbedderService extends Component
         {
             $id = $params['vimeo_player_id'];
         }
-        else if (!empty($params['id']))
+        elseif (!empty($params['id']))
         {
             $id = $params['id'];
         }
@@ -231,19 +231,19 @@ class EmbedderService extends Component
             $video_info->medres_url = $video_info->thumbnail_url;
             $video_info->thumbnail_url = str_replace('hqdefault', 'mqdefault', $video_info->thumbnail_url);
         }
-        else if ($isVimeo)
+        elseif ($isVimeo)
         {
             $video_info->highres_url = preg_replace('/_(.*?)\./', '_1280.', $video_info->thumbnail_url);
             $video_info->medres_url = preg_replace('/_(.*?)\./', '_640.', $video_info->thumbnail_url);
             $video_info->thumbnail_url = preg_replace('/_(.*?)\./', '_295.', $video_info->thumbnail_url);
         }
-        else if ($isWistia)
+        elseif ($isWistia)
         {
             $video_info->highres_url = str_replace('?image_crop_resized=100x60', '', $video_info->thumbnail_url);
             $video_info->medres_url = str_replace('?image_crop_resized=100x60', '?image_crop_resized=640x400', $video_info->thumbnail_url);
             $video_info->thumbnail_url = str_replace('?image_crop_resized=100x60', '?image_crop_resized=240x135', $video_info->thumbnail_url);
         }
-        else if ($isViddler)
+        elseif ($isViddler)
         {
             $video_info->highres_url = $video_info->thumbnail_url;
             $video_info->medres_url = $video_info->thumbnail_url;
