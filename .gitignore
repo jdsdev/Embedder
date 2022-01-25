@@ -1,6 +1,14 @@
-*.idea/*
-*vendor/*
-*.log
-*.DS_Store
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Dependencies
+/vendor
 *composer.lock
-*Thumbs.db
+
+# Log Files
+*.log
+
+# Editors
+/.idea
+/.vscode
