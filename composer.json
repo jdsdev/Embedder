@@ -1,7 +1,7 @@
 {
   "name": "jdsdev/craft-embedder",
   "description": "Generate video embed code.",
-  "version": "2.0.3",
+  "version": "3.0.0",
   "type": "craft-plugin",
   "license": "MIT",
   "keywords": [
@@ -13,16 +13,13 @@
   ],
   "authors": [
     {
-      "name": "Pinkston Digital",
-      "homepage": "http://pinkstondigital.com"
-    },
-    {
       "name": "jonathan@jdsdev.com",
       "homepage": "https://jdsdev.com/"
     }
   ],
   "require": {
-    "craftcms/cms": "^3.0.0"
+    "craftcms/cms": "^4.0",
+    "php": "^8.0"
   },
   "autoload": {
     "psr-4": {

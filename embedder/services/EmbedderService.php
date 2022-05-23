@@ -15,7 +15,7 @@ class EmbedderService extends Component
      * @param array $params The video parameters.
      * @param string|null $output Can be 'simple' or 'full'.
      *
-     * @return array|mixed|\Twig_Markup
+     * @return array|mixed|\Twig\Markup
      */
     public function embed(string $video_url, array $params = [], ?string $output = 'simple')
     {

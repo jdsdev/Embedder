@@ -20,7 +20,7 @@ class EmbedderFieldType extends Field
     /**
      * @inheritdoc
      */
-    public function getContentColumnType(): string
+    public function getContentColumnType(): array|string
     {
         return Schema::TYPE_STRING;
     }
@@ -28,7 +28,7 @@ class EmbedderFieldType extends Field
     /**
      * @inheritdoc
      */
-    public function getInputHtml($value, ?ElementInterface $element = null): string
+    public function getInputHtml(mixed $value, ?ElementInterface $element = null): string
     {
         $variables = [
             'name' => $this->handle,

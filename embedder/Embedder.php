@@ -2,6 +2,7 @@
 
 namespace jdsdev\embedder;
 
+use craft\base\Plugin;
 use craft\events\RegisterComponentTypesEvent;
 use craft\services\Fields;
 use craft\web\twig\variables\CraftVariable;
@@ -17,22 +18,22 @@ use yii\base\Event;
  * @package Embedder
  * @since   2.0.0
  */
-class Embedder extends \craft\base\Plugin
+class Embedder extends Plugin
 {
     /**
      * @var Embedder
      */
-    public static $plugin;
+    public static Plugin $plugin;
 
     /**
      * @inheritdoc
      */
-    public $schemaVersion = '1.0.1';
+    public string $schemaVersion = '1.0.1';
 
     /**
      * @inheritdoc
      */
-    public $hasCpSettings = false;
+    public bool $hasCpSettings = false;
 
     /**
      * @inheritdoc

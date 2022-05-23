@@ -14,15 +14,15 @@ This plugin requires Craft 3 or later.
 
 To install the plugin, follow these instructions.
 
-1.  Open your terminal and go to your Craft project:
+1. Open your terminal and go to your Craft project:
 
         cd /path/to/project
 
-2.  Then tell Composer to load the plugin:
+2. Then tell Composer to load the plugin:
 
         composer require jdsdev/craft-embedder
 
-3.  In the Control Panel, go to Settings → Plugins and click the “Install” button for Embedder.
+3. In the Control Panel, go to Settings → Plugins and click the “Install” button for Embedder.
 
 ---
 
@@ -127,4 +127,4 @@ The optional `wmode` parameter can be used if you're experiencing issues positio
 
 - [Aaron Waldon](https://github.com/aaronwaldon) / @aaronwaldon - Reworked the logic to allow any provider parameters to be used. Added HTML output control parameters and updated the documentation.
 
-- [Jonathan Sarmiento](https://github.com/jdsdev) - Updated the plugin for Craft 3 and handling ongoing updates.
+- [Jonathan Sarmiento](https://github.com/jdsdev) - Updated the plugin for Craft 3 and Craft 4.
