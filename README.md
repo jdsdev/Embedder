@@ -6,7 +6,7 @@ You can also output various pieces of metadata about the video.
 
 ## Requirements
 
-This plugin requires Craft 3 or later.
+This plugin requires Craft 4 or later.
 
 > For the Craft 2 version, see the [v1 branch](https://github.com/jdsdev/Embedder/tree/v1)
 
