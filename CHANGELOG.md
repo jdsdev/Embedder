@@ -4,7 +4,8 @@
 
 ### Added
 
-- Added support for Craft 4
+- Add support for Craft 4
+- Drop support for Craft 3
 
 ## 2.0.3 - 2022-1-25
 
