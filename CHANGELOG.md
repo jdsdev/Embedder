@@ -1,5 +1,10 @@
 # Embedder Changelog
 
+## 4.0.0 - 2024-08-18
+### Added
+- Add support for Craft 5
+- Drop support for Craft 4
+
 ## 3.0.0 - 2022-05-23
 
 ### Added
